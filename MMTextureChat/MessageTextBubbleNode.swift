@@ -26,6 +26,9 @@ public class MessageTextBubbleNode: ASDisplayNode , ASTextNodeDelegate{
         
         let attr = NSMutableAttributedString(attributedString: text)
         
+        if isOutgoing {
+            attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range: NSRange(location: 0, length: text.length))
+        }
         
         textNode.attributedText = attr
         
@@ -40,12 +43,6 @@ public class MessageTextBubbleNode: ASDisplayNode , ASTextNodeDelegate{
         let linkcolor = isOutgoing ? UIColor.white : UIColor.blue
         textNode.addLinkDetection(attr.string, highLightColor: linkcolor)
         textNode.addUserMention(highLightColor: linkcolor)
-        
-    }
-    
-    
-    public override func didLoad() {
-
         
     }
     

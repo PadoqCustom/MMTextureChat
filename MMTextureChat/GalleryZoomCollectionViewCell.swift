@@ -103,7 +103,6 @@ class GalleryZoomCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate,A
     
     func zooomToPoint(point : CGPoint , scale : CGFloat ){
         
-        print(point)
         let w = self.scroll.bounds.size.width / scale
         let h = self.scroll.bounds.size.height / scale
         let x = point.x - (w / 2.0)

@@ -69,7 +69,6 @@ public class MessageBubbleImageProvider {
         //   var normalBubble = bubble.imageMaskedWith(properties.isOutgoing ? outgoingColor : incomingColor)
         var normalBubble = bubble.imageMaskedWith(properties.color)
         
-         print(bubble.size)
         // make image stretchable from center point
         let center = CGPoint(x: bubble.size.width / 2.0, y: bubble.size.height / 2.0)
         let capInsets = UIEdgeInsetsMake(center.y, center.x, center.y, center.x);

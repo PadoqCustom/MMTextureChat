@@ -13,9 +13,9 @@ import DropDown
 import Toolbar
 import ionicons
 
-class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelegate {
+class ChatAsyncViewController: UIViewController , ChatDelegate {
     
-    var collectionView : ASCollectionNode?
+    var collectionView : ASCollectionNode!
     var messages = [Message]()
     let cellId = "cellId"
     var userIds = [[String : NSRange]]()
@@ -24,7 +24,7 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
     var lastRange : NSRange!
     var dropDown : DropDown!
     var lastWord = ""
-    var senderId = ""
+    var senderId = "me"
     var showEarlierMessage = false
     var keyBoardTap : UITapGestureRecognizer!
     
@@ -61,26 +61,21 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
         
     }
     
-
-    
-    
     func endEdit(){
         self.view.endEditing(true)
     }
     
     
     override func viewWillLayoutSubviews() {
-        self.collectionView?.frame = CGRect(0,0,view.bounds.width , view.bounds.height );
+        self.collectionView.frame = CGRect(0,0,view.bounds.width , view.bounds.height );
 
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let indexPath = IndexPath(item: self.messages.count - 1, section: 0)
-        self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: false)
+//        let indexPath = IndexPath(item: 0, section: 0)
+//        self.collectionView.scrollToItem(at: indexPath, at: .top, animated: false)
         self.showEarlierMessage = true
-
-
     }
     
     
@@ -95,10 +90,10 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
         
         let collectionNode = ASCollectionNode(collectionViewLayout: layout)
         self.collectionView = collectionNode
-        self.collectionView?.backgroundColor = UIColor.white
-        self.collectionView?.delegate = self
-        self.collectionView?.dataSource = self
-        view.addSubnode(self.collectionView!)
+        self.collectionView.backgroundColor = UIColor.white
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        view.addSubnode(self.collectionView)
         
 
         
@@ -123,26 +118,23 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
         
         
         //frame set
-        self.collectionView?.frame = CGRect(0,0,view.bounds.width , view.bounds.height );
+        self.collectionView.frame = CGRect(0,0,view.bounds.width , view.bounds.height );
         self.view.bringSubview(toFront: inputToolbar)
-        if let coll = collectionView?.view{
-            coll.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 80, right: 0)
-            coll.keyboardDismissMode = .onDrag
-            
-            // Swift
-            if #available(iOS 10, *) {
-                // Thanks @maksa
-                coll.isPrefetchingEnabled = false
-                
-            }
-            
+        
+        collectionView.view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 80, right: 0)
+        collectionView.view.keyboardDismissMode = .onDrag
+        
+        // Swift
+        if #available(iOS 10, *) {
+            collectionView.view.isPrefetchingEnabled = false
         }
         
+        collectionView.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 1)
     }
     
     deinit {
-        collectionView?.dataSource = nil
-        collectionView?.delegate = nil
+        collectionView.dataSource = nil
+        collectionView.delegate = nil
     }
     
 
@@ -154,22 +146,11 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
     
     
     func openImageGallery(message: Message) {
-        
         if let _ = message.imageUrl{
-            
             openGallery(message: message)
-            
-            
-        }
-        
-        if let _ = message.videoUrl{
-            
+        } else if let _ = message.videoUrl{
             openGallery(message: message)
-            
-            
         }
-
-        
     }
     
     func openGallery(message: Message){
@@ -204,23 +185,20 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
     
     //MARK: - Fetch Messages
     func fetchMessages(){
-    
-        
         if(showEarlierMessage == true){
             
             var paths = [IndexPath]()
+            let size = messages.count
             var temp = [Message]()
-            for i in 0 ..< messages.count{
+            let mess = [Message(msg: "Hello all"),Message(msg: " all"),Message(msg: "Hello all"),Message(msg: "Hello all"),Message(msg: " all"),Message(msg: "Hello all"),Message(msg: "Hello all"),Message(msg: " all"),Message(msg: " all"),Message(msg: "Hello all"),Message(msg: " all"),Message(msg: "Hello all"),Message(msg: "Hello all"),Message(msg: " all"),Message(msg: "Hello all"),Message(msg: "Hello all"),Message(msg: " all")]
+            for i in 0 ..< mess.count{
                 
-                temp.append(messages[i])
-                paths.append(IndexPath(item: i, section: 0))
+                messages.append(mess[i])
+                paths.append(IndexPath(item: size + i, section: 0))
             }
             
-            messages = temp + messages
-            self.collectionView?.performBatchUpdates({
-                
-                self.collectionView?.insertItems(at: paths)
-                
+            self.collectionView.performBatchUpdates({
+                self.collectionView.insertItems(at: paths)
                 
             }, completion: { (bool) in
 
@@ -244,10 +222,7 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
     
     
     
-    
-    
-    
-    // MARK: - UITextViewDelegate
+    // MARK: - Keyboard
     final func keyboardWillShow(notification: Notification) {
         moveToolbar(up: true, notification: notification)
     }
@@ -261,116 +236,28 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
             return
         }
         let animationDuration: TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
-        let keyboardHeight = up ? -(userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height : 0
+        let keyboardHeight = up ? (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height : 0
         
         // Animation
-        self.toolbarBottomConstraint?.constant = keyboardHeight
+        self.toolbarBottomConstraint?.constant = -keyboardHeight
+        self.inputToolbar.setNeedsUpdateConstraints()
+        
+        
+        collectionView.view.contentInset = UIEdgeInsets(top: keyboardHeight + inputToolbar.frame.height, left: 0, bottom: 10, right: 0)
+        collectionView.view.scrollIndicatorInsets = UIEdgeInsets(top: keyboardHeight + inputToolbar.frame.height, left: 0, bottom: 10, right: collectionView.bounds.size.width - 8)
+        
+        if up {
+            collectionView.view.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+        }
+        
         UIView.animate(withDuration: animationDuration, animations: {
-            self.inputToolbar.layoutIfNeeded()
-        }, completion: nil)
+            self.view.layoutIfNeeded()
+        })
+        
         self.isMenuHidden = up
         keyBoardTap.isEnabled = up
         
-        
-        if let coll = collectionView?.view{
-            coll.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 80 - keyboardHeight, right: 0)
-
-        }
-        
     }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        
-        if(textView == self.textView){
-            let size: CGSize = textView.sizeThatFits(textView.bounds.size)
-            if let constraint: NSLayoutConstraint = self.constraint {
-                textView.removeConstraint(constraint)
-            }
-            self.constraint = textView.heightAnchor.constraint(equalToConstant: size.height)
-            self.constraint?.priority = UILayoutPriorityDefaultHigh
-            self.constraint?.isActive = true
-            
-            
-            textChanged(textView: textView)
-            checkRange()
-//            formatTextInTextView(textView: textView)
-        }
-        
-    }
-    
-    
-    
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        
-        if(textView != self.textView){
-            return false
-        }
-        
-        var i = 0
-        
-        for usr in userIds{
-            for (_ , value) in usr{
-                
-                
-                if(NSLocationInRange(range.location, value)){
-                    
-                    print("intersect")
-                    userIds.remove(at: i)
-                    if(text == "" && range.length == 1  ){
-                        
-                        removeAtr(textView: textView, range: value , bool: true)
-                        
-                    }else{
-                        removeAtr(textView: textView, range: value , bool: false)
-                        
-                    }
-                }else{
-                    
-                    print("do not intersect")
-                    
-                    
-                }
-                
-                
-            }
-            //increment
-            i = i + 1
-            
-        }
-        
-        
-        
-        if(text == "@"){
-            //           print(text)
-            dropDown.show()
-            reloadDataSource(str: "")
-            
-        }else if(dropDown.dataSource.count > 0){
-            if(text == "\n" ){
-                dropDown.hide()
-                lastWord = ""
-            }
-        }
-        else{
-            dropDown.hide()
-            lastWord = ""
-            dropDown.dataSource =  jidStrArr as! [String]
-            
-        }
-        
-        
-        
-        
-        return true
-    }
-    
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        self.isMenuHidden = true
-    }
-    
     
     //MARK:-  User Tag logic
     func removeAtr(textView : UITextView , range : NSRange , bool : Bool){
@@ -440,9 +327,6 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
         let beginning = textView.beginningOfDocument
         if let start = textView.position(from: beginning, offset:  selectedRange.location){
             if let end = textView.position(from : start, offset: selectedRange.length){
-                
-                
-                
                 
                 if let textRange = textView.tokenizer.rangeEnclosingPosition(end, with: UITextGranularity.word, inDirection: UITextLayoutDirection.left.rawValue){
                     if let wordTyped = textView.text(in: textRange){
@@ -558,10 +442,7 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
     
     //MARK: - Load Earlier
     func loadMoreMessages(){
-        //batch fetch add more
         fetchMessages()
-
-        
     }
     
     
@@ -601,45 +482,23 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
     //MARK: - Send
     func sendPressed(){
         if let textView = self.textView {
-            //            print(textView.attributedText)
             
             let attr = NSMutableAttributedString(attributedString: textView.attributedText)
-//
-//            attr.enumerateAttributes( in: NSMakeRange(0, attr.length), options: NSAttributedString.EnumerationOptions.longestEffectiveRangeNotRequired, using: { (dict, range, bool) in
-//                //                print(dict)
-//                
-//                for (key , value) in dict{
-//                    if(key == NSLinkAttributeName){
-//                        //                        print(value)
-//                        if let jid = value as? String{
-//                            attr.replaceCharacters(in: range, with: jid)
-//                            
-//                        }
-//                        
-//                    }
-//                }
-//            })
-            
-            print(attr.string)
-            
             if(attr.string.characters.count != 0){
-                //send logic
-                messages.append(Message(msg: attr.string))
-                self.collectionView?.insertItems(at: [IndexPath(item: messages.count - 1, section: 0)])
-                
+                let message = Message(msg: attr.string)
+                message.fromId = senderId
+                messages.insert(message, at: 0)
+                self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
                 
                 //Reset
                 self.textView?.text = nil
                 if let constraint: NSLayoutConstraint = self.constraint {
                     self.textView?.removeConstraint(constraint)
                 }
-                self.inputToolbar.setNeedsLayout()            }
-            
+                self.inputToolbar.setNeedsLayout()
+            }
         }
     }
-    
-    
-    
     
     
     //From
@@ -654,19 +513,79 @@ class ChatAsyncViewController: UIViewController ,UITextViewDelegate , ChatDelega
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if(scrollView.isAtTop && (showEarlierMessage ) ){
+        if(scrollView.isAtBottom && (showEarlierMessage ) ){
             loadMoreMessages()
         }
     }
     
     
 }
+
+extension ChatAsyncViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        
+        if(textView == self.textView){
+            let size: CGSize = textView.sizeThatFits(textView.bounds.size)
+            if let constraint: NSLayoutConstraint = self.constraint {
+                textView.removeConstraint(constraint)
+            }
+            self.constraint = textView.heightAnchor.constraint(equalToConstant: size.height)
+            self.constraint?.priority = UILayoutPriorityDefaultHigh
+            self.constraint?.isActive = true
+            
+            
+            textChanged(textView: textView)
+            checkRange()
+            //            formatTextInTextView(textView: textView)
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(textView != self.textView){
+            return false
+        }
+        
+        var i = 0
+        
+        for usr in userIds{
+            for (_ , value) in usr{
+                if(NSLocationInRange(range.location, value)){
+                    userIds.remove(at: i)
+                    let remove = text == "" && range.length == 1
+                    removeAtr(textView: textView, range: value , bool: remove)
+                }
+            }
+            i = i + 1
+        }
+        if(text == "@"){
+            dropDown.show()
+            reloadDataSource(str: "")
+            
+        }else if(dropDown.dataSource.count > 0){
+            if(text == "\n" ){
+                dropDown.hide()
+                lastWord = ""
+            }
+        }
+        else{
+            dropDown.hide()
+            lastWord = ""
+            dropDown.dataSource =  jidStrArr as! [String]
+            
+        }
+        return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        self.isMenuHidden = true
+    }
+}
+
 extension ChatAsyncViewController : ASCollectionDelegate{
     
     func shouldBatchFetch(for collectionView: ASCollectionView) -> Bool {
         return true
     }
-    
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
         return ASSizeRangeMake(CGSize(width: UIScreen.main.bounds.size.width, height: 0), CGSize(width: UIScreen.main.bounds.size.width, height: CGFloat.greatestFiniteMagnitude))
@@ -690,6 +609,7 @@ extension ChatAsyncViewController : ASCollectionDataSource{
         return {
             let node = ChatAsyncCell(message: msg , isOutGoing: isOut)
             node.delegate = self
+            node.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 1)
             return node
         }
     }

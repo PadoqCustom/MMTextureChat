@@ -87,14 +87,14 @@ class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
                 if topMostVisibleItem + updateItems.count > updateItem.indexPathAfterUpdate!.item {
                     if let newAttributes = self.layoutAttributesForItem(at: updateItem.indexPathAfterUpdate!) {
                         
-                        offset += (newAttributes.size.height + self.minimumLineSpacing)
+//                        offset += (newAttributes.size.height + self.minimumLineSpacing)
                         willInsertItemsToTop = true
                     }
                     
                 } else if bottomMostVisibleItem <= updateItem.indexPathAfterUpdate!.item {
                     if let newAttributes = self.layoutAttributesForItem(at: updateItem.indexPathAfterUpdate!) {
                         
-                        offset += (newAttributes.size.height + self.minimumLineSpacing)
+//                        offset += (newAttributes.size.height + self.minimumLineSpacing)
                         willInsertItemsToBottom = true
                     }
                 }
@@ -107,6 +107,7 @@ class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
                 break
             }
         }
+        willInsertItemsToTop = updateItems[0].indexPathAfterUpdate?.item == 0
         
         
         // Pass on information if items need more than one screen
@@ -163,7 +164,7 @@ class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
                                            y: collectionView.contentSize.height + offset - collectionView.frame.size.height + collectionView.contentInset.bottom)
             
             // Set new content offset with animation
-            collectionView.setContentOffset(newContentOffset, animated: true)
+//            collectionView.setContentOffset(newContentOffset, animated: true)
         }
     }
 }
