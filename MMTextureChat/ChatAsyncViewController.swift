@@ -9,7 +9,6 @@
 import UIKit
 import AsyncDisplayKit
 import MBPhotoPicker
-import DropDown
 import Toolbar
 import ionicons
 
@@ -20,10 +19,7 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
     let cellId = "cellId"
     var userIds = [[String : NSRange]]()
     var photo: MBPhotoPicker!
-    var jidStrArr = NSMutableArray(array: ["Mukesh","Mandy","Jack","Jill","User"])
     var lastRange : NSRange!
-    var dropDown : DropDown!
-    var lastWord = ""
     var senderId = "me"
     var showEarlierMessage = false
     var keyBoardTap : UITapGestureRecognizer!
@@ -114,7 +110,6 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
         keyBoardTap = UITapGestureRecognizer(target: self, action:  #selector(endEdit))
         self.view.addGestureRecognizer(keyBoardTap)
         keyBoardTap.isEnabled = false
-        setDropDown()
         
         
         //frame set
@@ -320,126 +315,6 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
     }
     
     
-    
-    func textChanged(textView: UITextView){
-        lastRange = getNSRange(textView: textView)
-        let selectedRange = textView.selectedRange
-        let beginning = textView.beginningOfDocument
-        if let start = textView.position(from: beginning, offset:  selectedRange.location){
-            if let end = textView.position(from : start, offset: selectedRange.length){
-                
-                if let textRange = textView.tokenizer.rangeEnclosingPosition(end, with: UITextGranularity.word, inDirection: UITextLayoutDirection.left.rawValue){
-                    if let wordTyped = textView.text(in: textRange){
-                        print(wordTyped)
-                        
-                        let wordsInSentence = textView.text.components(separatedBy:" ")
-                        for word in  wordsInSentence{
-                            let range = (textView.text as NSString).range(of:word)
-                            
-                            
-                            if(selectedRange.location >= range.location  && selectedRange.location <= (range.location + range.length)){
-                                
-                                if(word.hasPrefix("@")){
-                                    if(dropDown.isHidden){
-                                        dropDown.show()
-                                    }
-                                    
-                                    lastWord = word.replacingOccurrences(of:"@", with: "")
-                                    reloadDataSource(str: lastWord)
-                                    
-                                }else{
-                                    dropDown.hide()
-                                    lastWord = ""
-                                    
-                                }
-                            }else{
-                                
-                            }
-                            
-                        }
-                        
-                        
-                    }
-                }
-                
-            }
-        }
-        
-        
-        
-    }
-    
-    
-    
-    //MARK: - Dropdown
-    func reloadDataSource(str : String){
-        
-        let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", argumentArray: [str ])
-        
-        let temp = NSMutableArray(array: jidStrArr.filtered(using: predicate))
-        if(temp.count == 0){
-            dropDown.dataSource =  jidStrArr as! [String]
-            
-        }else{
-            dropDown.dataSource =  temp as! [String]
-        }
-        
-    }
-    
-    func setDropDown(){
-        
-        dropDown = DropDown()
-        
-        // The view to which the drop down will appear on
-        dropDown.anchorView = inputToolbar // UIView or UIBarButtonItem
-        dropDown.direction = .top
-        dropDown.backgroundColor = UIColor.white
-        // The list of items to display. Can be changed dynamically
-        
-        dropDown.dataSource = jidStrArr as! [String]
-        
-        
-        dropDown.cellHeight = 60
-        dropDown.topOffset = CGPoint(x: 0, y: -50)
-        
-        /*** IMPORTANT PART FOR CUSTOM CELLS ***/
-//        dropDown.cellNib = UINib(nibName: "DropDownTableViewCell", bundle: nil)
-        
- 
-        
-        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
-            print("Selected item: \(item) at index: \(index)")
-            if let textView = self.textView{
-                
-                if let jid = self.jidStrArr[index] as? String{
-                    
-                    let tempRange = NSMakeRange(self.lastRange.location - self.lastWord.characters.count, self.lastWord.characters.count)
-                    if(tempRange.location == 0){
-                        self.dropDown.hide()
-                        return
-                    }
-                    let newcontent = (textView.text as NSString).replacingCharacters(in: NSMakeRange(self.lastRange.location - self.lastWord.characters.count, self.lastWord.characters.count), with: item + " ")
-                    textView.text = newcontent
-                    
-                    
-                    self.userIds.append([jid : NSMakeRange(tempRange.location - 1, item.characters.count + 1)])
-                    
-
-                    
-                    self.formatTextInTextView(textView: textView)
-                    
-                    
-                }
-                
-            }
-
-            
-        }
-        
-        /*** END - IMPORTANT PART FOR CUSTOM CELLS ***/
-    }
-    
-    
     //MARK: - Load Earlier
     func loadMoreMessages(){
         fetchMessages()
@@ -533,8 +408,6 @@ extension ChatAsyncViewController: UITextViewDelegate {
             self.constraint?.priority = UILayoutPriorityDefaultHigh
             self.constraint?.isActive = true
             
-            
-            textChanged(textView: textView)
             checkRange()
             //            formatTextInTextView(textView: textView)
         }
@@ -557,22 +430,7 @@ extension ChatAsyncViewController: UITextViewDelegate {
             }
             i = i + 1
         }
-        if(text == "@"){
-            dropDown.show()
-            reloadDataSource(str: "")
-            
-        }else if(dropDown.dataSource.count > 0){
-            if(text == "\n" ){
-                dropDown.hide()
-                lastWord = ""
-            }
-        }
-        else{
-            dropDown.hide()
-            lastWord = ""
-            dropDown.dataSource =  jidStrArr as! [String]
-            
-        }
+        
         return true
     }
     

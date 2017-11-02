@@ -1,5 +1,4 @@
 PODS:
-  - DropDown (2)
   - ionicons (2.0.3)
   - MBPhotoPicker (0.2.3)
   - PINCache (3.0.1-beta.5):
@@ -27,14 +26,12 @@ PODS:
   - Toolbar (0.0.5)
 
 DEPENDENCIES:
-  - DropDown (~> 2)
   - ionicons
   - MBPhotoPicker
   - Texture (~> 2.3)
   - Toolbar
 
 SPEC CHECKSUMS:
-  DropDown: 744784d9c9aa505100e942c16acd05430cbb2f0a
   ionicons: ec1e86e6c3316bd9942a7f024080dd75c70dd6a5
   MBPhotoPicker: e5b28084d0ab684c7a8ec35a20be23794acec118
   PINCache: 98e7b1ef782824ad231ade51987c218b758c30d8
@@ -43,6 +40,6 @@ SPEC CHECKSUMS:
   Texture: 8cf0872fe33328c20d7e6c1fcbf1f23a82162f2f
   Toolbar: 00019ff63ffc1f5e7320d4198fbaf53a5624cf05
 
-PODFILE CHECKSUM: bb4a45e7f346d9fa8d12322d25aa7cf45472c839
+PODFILE CHECKSUM: bec18a3ccb4d25efede1fb6fe334436482aa83b2
 
 COCOAPODS: 1.2.1
