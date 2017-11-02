@@ -43,6 +43,6 @@ Pod::Spec.new do |s|
   s.source_files = "MMTextureChat/*.{swift}"
 
   # 9
-  s.resources = "MMChatFramework/**/*.{png,jpeg,jpg,storyboard,xib}"
+  s.resources = "MMTextureChat/*.{xcassets}"
 end
 
