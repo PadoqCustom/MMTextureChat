@@ -57,7 +57,7 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
         
     }
     
-    func endEdit(){
+    @objc func endEdit(){
         self.view.endEditing(true)
     }
     
@@ -218,11 +218,11 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
     
     
     // MARK: - Keyboard
-    final func keyboardWillShow(notification: Notification) {
+    @objc final func keyboardWillShow(notification: Notification) {
         moveToolbar(up: true, notification: notification)
     }
     
-    final func keyboardWillHide(notification: Notification) {
+    @objc final func keyboardWillHide(notification: Notification) {
         moveToolbar(up: false, notification: notification)
     }
     
@@ -259,7 +259,7 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
         
         
         let attr = NSMutableAttributedString(attributedString: textView.attributedText)
-        attr.removeAttribute(NSLinkAttributeName, range: range)
+        attr.removeAttribute(NSAttributedStringKey.link, range: range)
         if(bool){
             attr.replaceCharacters(in: range, with: "")
         }
@@ -278,7 +278,7 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
             attr.enumerateAttributes( in: NSMakeRange(0, attr.length), options: NSAttributedString.EnumerationOptions.longestEffectiveRangeNotRequired, using: { (dict, range, bool) in
                 
                 for (key , _) in dict{
-                    if(key == NSLinkAttributeName){
+                    if(key == NSAttributedStringKey.link){
                         
                         var user = userIds[i]
                         
@@ -298,14 +298,14 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
     func formatTextInTextView(textView: UITextView) {
         
         
-        textView.linkTextAttributes = [NSForegroundColorAttributeName : UIColor.blue , NSUnderlineStyleAttributeName : NSUnderlineStyle.styleNone.rawValue]
-        textView.attributedText = NSAttributedString(string: textView.text, attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)])
+        textView.linkTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : UIColor.blue , NSAttributedStringKey.underlineStyle.rawValue : NSUnderlineStyle.styleNone.rawValue]
+        textView.attributedText = NSAttributedString(string: textView.text, attributes: [NSAttributedStringKey.font : UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)])
         
         let attr = NSMutableAttributedString(attributedString: textView.attributedText)
         
         for user in userIds{
             for (key,value) in user{
-                attr.addAttribute(NSLinkAttributeName, value: key, range: value)
+                attr.addAttribute(NSAttributedStringKey.link, value: key, range: value)
                 
             }
         }
@@ -322,7 +322,7 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
     
     
     //MARK: - Camera
-    func didPressAccessoryButton() {
+    @objc func didPressAccessoryButton() {
         
         photo = MBPhotoPicker()
         photo?.disableEntitlements = true
@@ -355,7 +355,7 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
     }
     
     //MARK: - Send
-    func sendPressed(){
+    @objc func sendPressed(){
         if let textView = self.textView {
             
             let attr = NSMutableAttributedString(attributedString: textView.attributedText)
@@ -405,7 +405,7 @@ extension ChatAsyncViewController: UITextViewDelegate {
                 textView.removeConstraint(constraint)
             }
             self.constraint = textView.heightAnchor.constraint(equalToConstant: size.height)
-            self.constraint?.priority = UILayoutPriorityDefaultHigh
+            self.constraint?.priority = UILayoutPriority.defaultHigh
             self.constraint?.isActive = true
             
             checkRange()

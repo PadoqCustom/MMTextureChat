@@ -27,7 +27,7 @@ public class MessageTextBubbleNode: ASDisplayNode , ASTextNodeDelegate{
         let attr = NSMutableAttributedString(attributedString: text)
         
         if isOutgoing {
-            attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range: NSRange(location: 0, length: text.length))
+            attr.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: text.length))
         }
         
         textNode.attributedText = attr

@@ -12,16 +12,16 @@ import AsyncDisplayKit
 
 public let kAMMessageCellNodeAvatarImageSize: CGFloat = 24
 
-public let kAMMessageCellNodeTopTextAttributes = [NSForegroundColorAttributeName: UIColor.lightGray,
-                                                  NSFontAttributeName: UIFont.boldSystemFont(ofSize: 12)]
-public let kAMMessageCellNodeContentTopTextAttributes = [NSForegroundColorAttributeName: UIColor.lightGray,
-                                                         NSFontAttributeName:UIFont.preferredFont(forTextStyle: UIFontTextStyle.footnote)]
-public let kAMMessageCellNodeBottomTextAttributes = [NSForegroundColorAttributeName: UIColor.lightGray,
-                                                     NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.caption2)]
-public let kAMMessageCellNodeBubbleAttributes = [NSForegroundColorAttributeName: UIColor.black,
-                                                         NSFontAttributeName:UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
-public let kAMMessageCellNodeCaptionTextAttributes = [NSForegroundColorAttributeName: UIColor.black,
-                                                     NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.caption2)]
+public let kAMMessageCellNodeTopTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray,
+                                                  NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 12)]
+public let kAMMessageCellNodeContentTopTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray,
+                                                         NSAttributedStringKey.font:UIFont.preferredFont(forTextStyle: UIFontTextStyle.footnote)]
+public let kAMMessageCellNodeBottomTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray,
+                                                     NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.caption2)]
+public let kAMMessageCellNodeBubbleAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black,
+                                                 NSAttributedStringKey.font:UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
+public let kAMMessageCellNodeCaptionTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black,
+                                                      NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.caption2)]
 
 
 @objc protocol ChatDelegate{
@@ -60,7 +60,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
     }
 
     
-    func handleZoomTap() {
+    @objc func handleZoomTap() {
     
         if(delegate != nil){
             if let msg = message{
@@ -72,7 +72,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
     }
     
     
-    func handleUserTap() {
+    @objc func handleUserTap() {
     
         if(delegate != nil){
             if let msg = message{

@@ -63,7 +63,7 @@ class GalleryZoomCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate,A
     }
     
 
-    func tappedPhoto(sender : UITapGestureRecognizer){
+    @objc func tappedPhoto(sender : UITapGestureRecognizer){
         
         if let _ = self.imageView.image {
             

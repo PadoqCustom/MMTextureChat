@@ -70,7 +70,7 @@ class GalleryZoomViewController: UICollectionViewController,UICollectionViewDele
         // Do any additional setup after loading the view.
     }
     
-    func closeAction(){
+    @objc func closeAction(){
        self.dismiss(animated: true, completion: nil)
     }
 

@@ -29,7 +29,7 @@ class MessageVideoNode : ASDisplayNode{
         self.videoURL = url
         videoNode.backgroundColor = UIColor.lightGray
         videoNode.style.preferredSize = CGSize(width: 210, height: 150)
-        videoNode.gravity = AVLayerVideoGravityResizeAspectFill
+        videoNode.gravity = AVLayerVideoGravity.resizeAspectFill.rawValue
         
         playBut = ASButtonNode()
         playBut.style.preferredSize = CGSize(width: 50, height: 50)
