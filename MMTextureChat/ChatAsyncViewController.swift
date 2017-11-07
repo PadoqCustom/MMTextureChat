@@ -12,8 +12,9 @@ import MBPhotoPicker
 import Toolbar
 import ionicons
 
-class ChatAsyncViewController: UIViewController , ChatDelegate {
+open class ChatAsyncViewController: UIViewController , ChatDelegate {
     
+    public var chatView: UIView! //Has to be passed in viewDidLoad!
     var collectionView : ASCollectionNode!
     var messages = [Message]()
     let cellId = "cellId"
@@ -24,7 +25,7 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
     var showEarlierMessage = false
     var keyBoardTap : UITapGestureRecognizer!
     
-
+    
     
     //Toolbar
     var toolbarBottomConstraint: NSLayoutConstraint?
@@ -46,13 +47,13 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
     var textView: UITextView!
     var constraint: NSLayoutConstraint?
     var isMenuHidden: Bool = false
-        
-
     
-    override func loadView() {
+    
+    
+    override open func loadView() {
         super.loadView()
-        self.view.addSubview(inputToolbar)
-        self.toolbarBottomConstraint = self.inputToolbar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
+        self.chatView.addSubview(inputToolbar)
+        self.toolbarBottomConstraint = self.inputToolbar.bottomAnchor.constraint(equalTo: self.chatView.bottomAnchor, constant: 0)
         self.toolbarBottomConstraint?.isActive = true
         
     }
@@ -62,22 +63,19 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
     }
     
     
-    override func viewWillLayoutSubviews() {
-        self.collectionView.frame = CGRect(0,0,view.bounds.width , view.bounds.height );
-
+    override open func viewWillLayoutSubviews() {
+        self.collectionView.frame = CGRect(0,0,chatView.bounds.width , chatView.bounds.height );
+        
     }
-
-    override func viewDidAppear(_ animated: Bool) {
+    
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        let indexPath = IndexPath(item: 0, section: 0)
-//        self.collectionView.scrollToItem(at: indexPath, at: .top, animated: false)
         self.showEarlierMessage = true
     }
     
-    
-    override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         fetchMessages()
         
         let layout = ChatCollectionViewFlowLayout()
@@ -89,9 +87,9 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
         self.collectionView.backgroundColor = UIColor.white
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
-        view.addSubnode(self.collectionView)
+        chatView.addSubnode(self.collectionView)
         
-
+        
         
         //toolbar
         textView = UITextView(frame: .zero)
@@ -108,13 +106,13 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         keyBoardTap = UITapGestureRecognizer(target: self, action:  #selector(endEdit))
-        self.view.addGestureRecognizer(keyBoardTap)
+        self.chatView.addGestureRecognizer(keyBoardTap)
         keyBoardTap.isEnabled = false
         
         
         //frame set
-        self.collectionView.frame = CGRect(0,0,view.bounds.width , view.bounds.height );
-        self.view.bringSubview(toFront: inputToolbar)
+        self.collectionView.frame = CGRect(0,0,chatView.bounds.width , chatView.bounds.height );
+        self.chatView.bringSubview(toFront: inputToolbar)
         
         collectionView.view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 80, right: 0)
         collectionView.view.keyboardDismissMode = .onDrag
@@ -132,11 +130,11 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
         collectionView.delegate = nil
     }
     
-
-    //MARK: - Chat delegates
-    
+    //
+    //    //MARK: - Chat delegates
+    //
     func openuserProfile(message: Message) {
-            print("click click")
+        print("click click")
     }
     
     
@@ -166,12 +164,6 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
                 }
                 
                 vc.present(gallery, animated: true, completion: nil)
-//                let board = UIStoryboard(name: "Main", bundle: nil)
-//                if let gallery = board.instantiateViewController(withIdentifier: "galleryzoom") as? GalleryZoomViewController{
-//
-//                }
-                
-                
             }
             
             
@@ -196,9 +188,9 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
                 self.collectionView.insertItems(at: paths)
                 
             }, completion: { (bool) in
-
+                
             })
-
+            
         }else{
             messages.append(Message(msg: "Hello all"))
             messages.append(Message(msg: "This is quick demo"))
@@ -209,10 +201,10 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
             messages.append(Message(msg: "Understanding of performance issue, especially some common uses like tableview pre rendering, helps"))
             messages.append(Message(videourl: "https://www.w3schools.com/html/mov_bbb.mp4"))
             
-
+            
         }
-
-
+        
+        
     }
     
     
@@ -285,7 +277,7 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
                         for (userkey,_) in user{
                             user.updateValue(range, forKey: userkey)
                             userIds[i] = user
-
+                            
                         }
                         
                         i = i + 1
@@ -311,7 +303,7 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
         }
         
         textView.attributedText = attr
-
+        
     }
     
     
@@ -387,7 +379,7 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
     
     
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if(scrollView.isAtBottom && (showEarlierMessage ) ){
             loadMoreMessages()
         }
@@ -397,23 +389,23 @@ class ChatAsyncViewController: UIViewController , ChatDelegate {
 }
 
 extension ChatAsyncViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
+    open func textViewDidChange(_ textView: UITextView) {
         
-        if(textView == self.textView){
-            let size: CGSize = textView.sizeThatFits(textView.bounds.size)
-            if let constraint: NSLayoutConstraint = self.constraint {
-                textView.removeConstraint(constraint)
-            }
-            self.constraint = textView.heightAnchor.constraint(equalToConstant: size.height)
-            self.constraint?.priority = UILayoutPriority.defaultHigh
-            self.constraint?.isActive = true
-            
-            checkRange()
-            //            formatTextInTextView(textView: textView)
+        
+        let size: CGSize = textView.sizeThatFits(textView.bounds.size)
+        if let constraint: NSLayoutConstraint = self.constraint {
+            textView.removeConstraint(constraint)
         }
+        self.constraint = textView.heightAnchor.constraint(equalToConstant: size.height)
+        self.constraint?.priority = UILayoutPriority.defaultHigh
+        self.constraint?.isActive = true
+        
+        checkRange()
+        //            formatTextInTextView(textView: textView)
+        
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(textView != self.textView){
             return false
         }
@@ -434,35 +426,35 @@ extension ChatAsyncViewController: UITextViewDelegate {
         return true
     }
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
+    open func textViewDidBeginEditing(_ textView: UITextView) {
         self.isMenuHidden = true
     }
 }
 
 extension ChatAsyncViewController : ASCollectionDelegate{
     
-    func shouldBatchFetch(for collectionView: ASCollectionView) -> Bool {
+    open func shouldBatchFetch(for collectionView: ASCollectionView) -> Bool {
         return true
     }
     
-    func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
+    open func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
         return ASSizeRangeMake(CGSize(width: UIScreen.main.bounds.size.width, height: 0), CGSize(width: UIScreen.main.bounds.size.width, height: CGFloat.greatestFiniteMagnitude))
         
     }
     
 }
 extension ChatAsyncViewController : ASCollectionDataSource{
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
     
-    func collectionView(_ collectionView: ASCollectionView, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
+    open func collectionView(_ collectionView: ASCollectionView, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         let msg = messages[indexPath.item]
-        let isOut = msg.fromId == senderId ? true : false
+        let isOut = true//msg.fromId == senderId ? true : false
         
         return {
             let node = ChatAsyncCell(message: msg , isOutGoing: isOut)
