@@ -15,7 +15,7 @@ public class MessageNetworkImageBubbleNode: ASDisplayNode ,ASNetworkImageNodeDel
     let messageImageNode: ASNetworkImageNode
     private let textNode: ASTextNode
     private let caption : NSAttributedString
-    private let activity : UIActivityIndicatorView
+    private lazy var activity : UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     
     public init(img: String, text : NSAttributedString , isOutgoing : Bool, bubbleImage: UIImage) {
@@ -25,9 +25,9 @@ public class MessageNetworkImageBubbleNode: ASDisplayNode ,ASNetworkImageNodeDel
         messageImageNode = ASNetworkImageNode()
         textNode = MessageCaptionNode()
         self.caption = text
-        activity = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        
+    
         super.init()
+        
         self.backgroundColor =  UIColor(red: 239 / 255, green: 237 / 255, blue: 237 / 255, alpha: 1)
         
         messageImageNode.style.preferredSize = CGSize(width: 210, height: 150)

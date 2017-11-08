@@ -63,8 +63,11 @@
                     <view key="view" contentMode="scaleToFill" id="WrO-GW-z0z">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <connections>
+                        <outlet property="justTemporaryForTesting" destination="WrO-GW-z0z" id="xi0-TL-hXe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ufy-nh-0tU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

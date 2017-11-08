@@ -12,12 +12,12 @@ import AsyncDisplayKit
 
 public let kAMMessageCellNodeAvatarImageSize: CGFloat = 24
 
-public let kAMMessageCellNodeTopTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray,
-                                                  NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 12)]
-public let kAMMessageCellNodeContentTopTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray,
-                                                         NSAttributedStringKey.font:UIFont.preferredFont(forTextStyle: UIFontTextStyle.footnote)]
-public let kAMMessageCellNodeBottomTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.lightGray,
-                                                     NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.caption2)]
+public let kAMMessageCellNodeTopTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(red: 142/255.0, green: 142/255.0, blue: 147/255.0, alpha: 1),
+                                                  NSAttributedStringKey.font: UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.medium)]
+public let kAMMessageCellNodeContentTopTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(red: 142/255.0, green: 142/255.0, blue: 147/255.0, alpha: 1),
+                                                         NSAttributedStringKey.font:UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.medium)]
+public let kAMMessageCellNodeBottomTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(red: 142/255.0, green: 142/255.0, blue: 147/255.0, alpha: 1),
+                                                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.medium)]
 public let kAMMessageCellNodeBubbleAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black,
                                                  NSAttributedStringKey.font:UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
 public let kAMMessageCellNodeCaptionTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black,
@@ -49,11 +49,9 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
     
     
     func didTap(_ videoNode: ASVideoNode) {
-        print("test video")
         if(delegate != nil){
             if let msg = message{
                 self.delegate.openImageGallery(message: msg)
-                
             }
         }
 
@@ -96,9 +94,6 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         bubbleNode = nil
         contentTopTextNode = ASTextNode()
 
-        
-        
-        
         if let url = message?.videoUrl{
             
             bubbleNode = MessageVideoNode(url: url, bubbleImage: bubbleImg, isOutgoing: isOutgoing)
@@ -123,7 +118,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         }
         
 
-        if let name = message?.name{
+        if let name = message?.name, message?.isOutgoing != true {
             contentTopTextNode?.attributedText = NSAttributedString(string: name , attributes: kAMMessageCellNodeContentTopTextAttributes)
             
         }
@@ -142,9 +137,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         }
         
         
-        
-        
-        if let time = message?.timestamp{
+        if let time = message?.bottomStatusText{
             bottomTextNode = ASTextNode()
             bottomTextNode?.attributedText = NSAttributedString(string: time, attributes: kAMMessageCellNodeBottomTextAttributes)
             bottomTextNode?.textContainerInset = UIEdgeInsetsMake(6, 0, 6, 0)
@@ -161,8 +154,10 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
                 avatarImageNode?.url = avatarurl
 
             }
+        } else if let img = message?.userImage {
+            avatarImageNode?.image = img
             
-        }else{
+        } else {
             avatarImageNode?.image = UIImage(named: "avatar")
         }
 
@@ -207,7 +202,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         }
        
         
-        if let _ = message?.timestamp{
+        if let _ = message?.bottomStatusText{
             addSubnode(bottomTextNode!)
             
         }
@@ -281,7 +276,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         
 
 
-        if let _ = message?.timestamp{
+        if let _ = message?.bottomStatusText{
             if(isOutgoing){
                 contentTopTextNode?.style.preferredSize = CGSize.zero
             }
@@ -289,7 +284,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
             
         }
         
-        let insetSpec = ASInsetLayoutSpec(insets: isOutgoing ? UIEdgeInsetsMake(1, 32, 5, 4) : UIEdgeInsetsMake(1, 4, 5, 32), child: verticalSpec)
+        let insetSpec = ASInsetLayoutSpec(insets: isOutgoing ? UIEdgeInsetsMake(1, 32, 1, 4) : UIEdgeInsetsMake(1, 4, 1, 32), child: verticalSpec)
 
         if let _ = message?.sectionStamp{
             let stackLay = ASStackLayoutSpec(direction: ASStackLayoutDirection.vertical, spacing: 0, justifyContent: ASStackLayoutJustifyContent.start, alignItems: ASStackLayoutAlignItems.start, children: [topTextNode! , insetSpec])

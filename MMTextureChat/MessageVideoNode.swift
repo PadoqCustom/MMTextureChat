@@ -42,8 +42,6 @@ class MessageVideoNode : ASDisplayNode{
         addSubnode(videoNode)
         addSubnode(playBut)
         
-        
-        
     }
     
     

@@ -36,7 +36,6 @@ Pod::Spec.new do |s|
   s.framework = "UIKit"
   s.dependency 'MBPhotoPicker'
   s.dependency 'Texture', '~> 2.3'
-  s.dependency 'Toolbar'
   s.dependency 'ionicons'
 
   # 8

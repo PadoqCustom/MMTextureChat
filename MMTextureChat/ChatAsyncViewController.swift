@@ -9,12 +9,18 @@
 import UIKit
 import AsyncDisplayKit
 import MBPhotoPicker
-import Toolbar
 import ionicons
 
 open class ChatAsyncViewController: UIViewController , ChatDelegate {
     
+    @IBOutlet weak var justTemporaryForTesting: UIView! {didSet {chatView = justTemporaryForTesting}}
     public var chatView: UIView! //Has to be passed in viewDidLoad!
+    public var tintColor: UIColor! {
+        didSet {
+            kDefaultOutgoingColor = tintColor
+        }
+    }
+    
     var collectionView : ASCollectionNode!
     var messages = [Message]()
     let cellId = "cellId"
@@ -25,48 +31,13 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
     var showEarlierMessage = false
     var keyBoardTap : UITapGestureRecognizer!
     
-    
-    
-    //Toolbar
-    var toolbarBottomConstraint: NSLayoutConstraint?
-    let inputToolbar: Toolbar = Toolbar()
-    
-    lazy var picture: ToolbarItem = {
-        let item: ToolbarItem = ToolbarItem(image: IonIcons.image(withIcon:"\u{f118}", size: 25, color: UIColor.lightGray), target: self, action: #selector(didPressAccessoryButton))
-        item.tintColor = UIColor.blue
-        return item
-    }()
-    
-    
-    lazy var sendBut: ToolbarItem = {
-        let item: ToolbarItem = ToolbarItem(image: IonIcons.image(withIcon:"\u{f2f6}", size: 25, color: UIColor.lightGray), target: self, action: #selector(sendPressed))
-        item.tintColor = UIColor.blue
-        
-        return item
-    }()
-    var textView: UITextView!
+    public var textView: UITextView!
     var constraint: NSLayoutConstraint?
     var isMenuHidden: Bool = false
     
-    
-    
-    override open func loadView() {
-        super.loadView()
-        self.chatView.addSubview(inputToolbar)
-        self.toolbarBottomConstraint = self.inputToolbar.bottomAnchor.constraint(equalTo: self.chatView.bottomAnchor, constant: 0)
-        self.toolbarBottomConstraint?.isActive = true
-        
-    }
-    
-    @objc func endEdit(){
-        self.view.endEditing(true)
-    }
-    
-    
-    override open func viewWillLayoutSubviews() {
-        self.collectionView.frame = CGRect(0,0,chatView.bounds.width , chatView.bounds.height );
-        
-    }
+//    override open func viewWillLayoutSubviews() {
+//        self.collectionView.frame = CGRect(0,0,chatView.bounds.width , chatView.bounds.height );
+//    }
     
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -84,9 +55,10 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
         
         let collectionNode = ASCollectionNode(collectionViewLayout: layout)
         self.collectionView = collectionNode
-        self.collectionView.backgroundColor = UIColor.white
+        self.collectionView.backgroundColor = UIColor.clear
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+        
         chatView.addSubnode(self.collectionView)
         
         
@@ -99,23 +71,11 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
         textView.delegate = self
         textView.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
         
-        
-        self.inputToolbar.setItems([self.picture, ToolbarItem(customView: self.textView) , self.sendBut], animated: false)
-        self.inputToolbar.maximumHeight = 200
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-        keyBoardTap = UITapGestureRecognizer(target: self, action:  #selector(endEdit))
-        self.chatView.addGestureRecognizer(keyBoardTap)
-        keyBoardTap.isEnabled = false
-        
-        
         //frame set
         self.collectionView.frame = CGRect(0,0,chatView.bounds.width , chatView.bounds.height );
-        self.chatView.bringSubview(toFront: inputToolbar)
         
         collectionView.view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 80, right: 0)
-        collectionView.view.keyboardDismissMode = .onDrag
+        collectionView.view.keyboardDismissMode = .interactive
         
         // Swift
         if #available(iOS 10, *) {
@@ -130,11 +90,8 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
         collectionView.delegate = nil
     }
     
-    //
-    //    //MARK: - Chat delegates
-    //
     func openuserProfile(message: Message) {
-        print("click click")
+//        print("click click")
     }
     
     
@@ -196,6 +153,7 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
             messages.append(Message(msg: "This is quick demo"))
             messages.append(Message(msg: "Texture’s basic unit is the node. ASDisplayNode is an abstraction over UIView, which in turn is an abstraction over CALayer. Unlike views, which can only be used on the main thread, nodes are thread-safe: you can instantiate and configure entire hierarchies of them in parallel on background threads."))
             messages.append(Message(image: "https://s-media-cache-ak0.pinimg.com/736x/43/bd/ef/43bdef2a0af4f55238f1df4913b3188b--super-hero-shirts-ironman.jpg"))
+            messages.last!.sectionStamp = "stampo"
             messages.append(Message(msg: "Texture lets you move image decoding, text sizing and rendering, and other expensive UI operations off the main thread, to keep the main thread available to respond to user interaction. Texture has other tricks up its sleeve too… but we’ll get to that later"))
             messages.append(Message(image: "https://media3.giphy.com/media/kEKcOWl8RMLde/giphy.gif", caption: "demo caption"))
             messages.append(Message(msg: "Understanding of performance issue, especially some common uses like tableview pre rendering, helps"))
@@ -226,12 +184,12 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
         let keyboardHeight = up ? (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height : 0
         
         // Animation
-        self.toolbarBottomConstraint?.constant = -keyboardHeight
-        self.inputToolbar.setNeedsUpdateConstraints()
+//        self.toolbarBottomConstraint?.constant = -keyboardHeight
+//        self.inputToolbar.setNeedsUpdateConstraints()
         
         
-        collectionView.view.contentInset = UIEdgeInsets(top: keyboardHeight + inputToolbar.frame.height, left: 0, bottom: 10, right: 0)
-        collectionView.view.scrollIndicatorInsets = UIEdgeInsets(top: keyboardHeight + inputToolbar.frame.height, left: 0, bottom: 10, right: collectionView.bounds.size.width - 8)
+        collectionView.view.contentInset = UIEdgeInsets(top: keyboardHeight + 0, left: 0, bottom: 10, right: 0)
+        collectionView.view.scrollIndicatorInsets = UIEdgeInsets(top: keyboardHeight + 0, left: 0, bottom: 10, right: collectionView.bounds.size.width - 8)
         
         if up {
             collectionView.view.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
@@ -256,9 +214,6 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
             attr.replaceCharacters(in: range, with: "")
         }
         textView.attributedText = attr
-        
-        
-        
         
     }
     
@@ -320,7 +275,7 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
         photo?.disableEntitlements = true
         
         photo?.onPhoto = { (_ image: UIImage?) -> Void in
-            print("Selected image")
+//            print("Selected image")
             if let img = image{
                 
                 self.confirmImagePost(img: img )
@@ -330,10 +285,10 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
         }
         photo?.onCancel = {
             self.photo = nil
-            print("Cancel Pressed")
+//            print("Cancel Pressed")
         }
         photo?.onError = { (_ error: MBPhotoPicker.ErrorPhotoPicker?) -> Void in
-            print("Error: \(String(describing: error?.rawValue))")
+//            print("Error: \(String(describing: error?.rawValue))")
             self.photo = nil
         }
         photo?.present(self)
@@ -342,7 +297,7 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
     
     
     func confirmImagePost(img : UIImage){
-        print("write your code for image")
+//        print("write your code for image")
         
     }
     
@@ -353,7 +308,7 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
             let attr = NSMutableAttributedString(attributedString: textView.attributedText)
             if(attr.string.characters.count != 0){
                 let message = Message(msg: attr.string)
-                message.fromId = senderId
+                message.isOutgoing = true
                 messages.insert(message, at: 0)
                 self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
                 
@@ -362,7 +317,6 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
                 if let constraint: NSLayoutConstraint = self.constraint {
                     self.textView?.removeConstraint(constraint)
                 }
-                self.inputToolbar.setNeedsLayout()
             }
         }
     }
@@ -454,10 +408,9 @@ extension ChatAsyncViewController : ASCollectionDataSource{
     
     open func collectionView(_ collectionView: ASCollectionView, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         let msg = messages[indexPath.item]
-        let isOut = true//msg.fromId == senderId ? true : false
         
         return {
-            let node = ChatAsyncCell(message: msg , isOutGoing: isOut)
+            let node = ChatAsyncCell(message: msg , isOutGoing: msg.isOutgoing)
             node.delegate = self
             node.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 1)
             return node

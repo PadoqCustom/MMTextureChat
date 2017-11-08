@@ -23,8 +23,8 @@ private func ==(lhs: MessageProperties, rhs: MessageProperties) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }
 
-public let kDefaultIncomingColor = UIColor(red: 239 / 255, green: 237 / 255, blue: 237 / 255, alpha: 1)
-public let kDefaultOutgoingColor = UIColor(red: 17 / 255, green: 107 / 255, blue: 254 / 255, alpha: 1)
+public var kDefaultIncomingColor = UIColor.white
+public var kDefaultOutgoingColor = UIColor(red: 17 / 255, green: 107 / 255, blue: 254 / 255, alpha: 1)
 
 public class MessageBubbleImageProvider {
     
@@ -61,8 +61,10 @@ public class MessageBubbleImageProvider {
     
     private func buildBubbleImage(_ properties: MessageProperties) -> UIImage {
         let imageName = "bubble" + (properties.isOutgoing ? "_outgoing" : "_incoming") + (properties.hasTail ? "" : "_tailless")
-       
-        guard let bubble = UIImage(named : imageName) else {
+        
+        let bundle = Bundle(for: MessageBubbleImageProvider.self)
+        
+        guard let bubble = UIImage(named : imageName, in: bundle, compatibleWith: nil) else {
             return UIImage()
         }
         

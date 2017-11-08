@@ -69,7 +69,7 @@ public class MessageTextBubbleNode: ASDisplayNode , ASTextNodeDelegate{
     }
     
     public func textNode(_ textNode: ASTextNode, tappedLinkAttribute attribute: String, value: Any, at point: CGPoint, textRange: NSRange) {
-        print("link tap")
+//        print("link tap")
 
     }
 }

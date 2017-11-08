@@ -11,23 +11,29 @@ import UIKit
 
 class Message: NSObject {
 
-    var fromId: String?
+    var isOutgoing: Bool = false
     var text: NSAttributedString?
-    var timestamp: String?
-    var toId: String?
-    var imageUrl: String?
-    var videoUrl: String?
-    var imageWidth: NSNumber?
-    var imageHeight: NSNumber?
+    var bottomStatusText: String?
     var name : String?
     var sectionStamp : String?
     var userImgURL : String?
+    var userImage: UIImage?
+    
+    //if image cell
+    var imageUrl: String?
+    var imageWidth: NSNumber?
+    var imageHeight: NSNumber?
+    
+    //if video cell
+    var videoUrl: String?
+    
+    
 
     
     init(image : String){
         super.init()
         self.imageUrl = image
-        setdemotimeStamp(time: "06.00 AM", stamp: "", name: "Mukesh")
+        setdemodata(time: "", stamp: "", name: "Mukesh")
     }
     
     
@@ -36,7 +42,7 @@ class Message: NSObject {
 
         self.imageUrl = image
         self.text = NSAttributedString(string : caption)
-        setdemotimeStamp(time: "06.30 AM", stamp: "Monday Jun", name: "Mandy")
+        setdemodata(time: "", stamp: "Monday, Jun 4th", name: "Mandy")
 
     }
     
@@ -45,7 +51,7 @@ class Message: NSObject {
         super.init()
 
         self.text = NSAttributedString(string : msg , attributes : kAMMessageCellNodeBubbleAttributes)
-        setdemotimeStamp(time: "06.40 AM", stamp: "", name: "Muks")
+        setdemodata(time: "", stamp: "", name: "Muks")
 
 
     }
@@ -55,13 +61,13 @@ class Message: NSObject {
         super.init()
 
         self.videoUrl = videourl
-        setdemotimeStamp(time: "06.55 AM", stamp: "Today", name: "Honey")
+        setdemodata(time: "", stamp: "Today", name: "Honey")
 
     }
     
     
-    func setdemotimeStamp(time : String , stamp : String , name : String){
-        self.timestamp = time
+    func setdemodata(time : String , stamp : String , name : String){
+        self.bottomStatusText = nil
         if(stamp != ""){
             self.sectionStamp = stamp
 

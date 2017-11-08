@@ -6,7 +6,6 @@ target 'MMTextureChat' do
   use_frameworks!
   pod 'MBPhotoPicker'
   pod 'Texture', '~> 2.3'
-  pod 'Toolbar'
   pod 'ionicons'
   # Pods for MMTextureChat
   
