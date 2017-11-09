@@ -22,7 +22,7 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
     }
     
     var collectionView : ASCollectionNode!
-    var messages = [Message]()
+    var messages = [MMMessage]()
     let cellId = "cellId"
     var userIds = [[String : NSRange]]()
     var photo: MBPhotoPicker!
@@ -90,12 +90,12 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
         collectionView.delegate = nil
     }
     
-    func openuserProfile(message: Message) {
+    func openuserProfile(message: MMMessage) {
 //        print("click click")
     }
     
     
-    func openImageGallery(message: Message) {
+    func openImageGallery(message: MMMessage) {
         if let _ = message.imageUrl{
             openGallery(message: message)
         } else if let _ = message.videoUrl{
@@ -103,7 +103,7 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
         }
     }
     
-    func openGallery(message: Message){
+    func openGallery(message: MMMessage){
         let arr = messages.filter {
             ( $0.imageUrl != nil ||  $0.videoUrl != nil)
         }
@@ -133,8 +133,8 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
             
             var paths = [IndexPath]()
             let size = messages.count
-            var temp = [Message]()
-            let mess = [Message(msg: "Hello all"),Message(msg: " all"),Message(msg: "Hello all"),Message(msg: "Hello all"),Message(msg: " all"),Message(msg: "Hello all"),Message(msg: "Hello all"),Message(msg: " all"),Message(msg: " all"),Message(msg: "Hello all"),Message(msg: " all"),Message(msg: "Hello all"),Message(msg: "Hello all"),Message(msg: " all"),Message(msg: "Hello all"),Message(msg: "Hello all"),Message(msg: " all")]
+            var temp = [MMMessage]()
+            let mess = [MMMessage(msg: "Hello all"),MMMessage(msg: " all"),MMMessage(msg: "Hello all"),MMMessage(msg: "Hello all"),MMMessage(msg: " all"),MMMessage(msg: "Hello all"),MMMessage(msg: "Hello all"),MMMessage(msg: " all"),MMMessage(msg: " all"),MMMessage(msg: "Hello all"),MMMessage(msg: " all"),MMMessage(msg: "Hello all"),MMMessage(msg: "Hello all"),MMMessage(msg: " all"),MMMessage(msg: "Hello all"),MMMessage(msg: "Hello all"),MMMessage(msg: " all")]
             for i in 0 ..< mess.count{
                 
                 messages.append(mess[i])
@@ -149,15 +149,15 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
             })
             
         }else{
-            messages.append(Message(msg: "Hello all"))
-            messages.append(Message(msg: "This is quick demo"))
-            messages.append(Message(msg: "Texture’s basic unit is the node. ASDisplayNode is an abstraction over UIView, which in turn is an abstraction over CALayer. Unlike views, which can only be used on the main thread, nodes are thread-safe: you can instantiate and configure entire hierarchies of them in parallel on background threads."))
-            messages.append(Message(image: "https://s-media-cache-ak0.pinimg.com/736x/43/bd/ef/43bdef2a0af4f55238f1df4913b3188b--super-hero-shirts-ironman.jpg"))
+            messages.append(MMMessage(msg: "Hello all"))
+            messages.append(MMMessage(msg: "This is quick demo"))
+            messages.append(MMMessage(msg: "Texture’s basic unit is the node. ASDisplayNode is an abstraction over UIView, which in turn is an abstraction over CALayer. Unlike views, which can only be used on the main thread, nodes are thread-safe: you can instantiate and configure entire hierarchies of them in parallel on background threads."))
+            messages.append(MMMessage(image: "https://s-media-cache-ak0.pinimg.com/736x/43/bd/ef/43bdef2a0af4f55238f1df4913b3188b--super-hero-shirts-ironman.jpg"))
             messages.last!.sectionStamp = "stampo"
-            messages.append(Message(msg: "Texture lets you move image decoding, text sizing and rendering, and other expensive UI operations off the main thread, to keep the main thread available to respond to user interaction. Texture has other tricks up its sleeve too… but we’ll get to that later"))
-            messages.append(Message(image: "https://media3.giphy.com/media/kEKcOWl8RMLde/giphy.gif", caption: "demo caption"))
-            messages.append(Message(msg: "Understanding of performance issue, especially some common uses like tableview pre rendering, helps"))
-            messages.append(Message(videourl: "https://www.w3schools.com/html/mov_bbb.mp4"))
+            messages.append(MMMessage(msg: "Texture lets you move image decoding, text sizing and rendering, and other expensive UI operations off the main thread, to keep the main thread available to respond to user interaction. Texture has other tricks up its sleeve too… but we’ll get to that later"))
+            messages.append(MMMessage(image: "https://media3.giphy.com/media/kEKcOWl8RMLde/giphy.gif", caption: "demo caption"))
+            messages.append(MMMessage(msg: "Understanding of performance issue, especially some common uses like tableview pre rendering, helps"))
+            messages.append(MMMessage(videourl: "https://www.w3schools.com/html/mov_bbb.mp4"))
             
             
         }
@@ -307,7 +307,7 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
             
             let attr = NSMutableAttributedString(attributedString: textView.attributedText)
             if(attr.string.characters.count != 0){
-                let message = Message(msg: attr.string)
+                let message = MMMessage(msg: attr.string)
                 message.isOutgoing = true
                 messages.insert(message, at: 0)
                 self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])

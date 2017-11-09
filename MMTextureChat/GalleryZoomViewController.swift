@@ -16,7 +16,7 @@ private let reusevideoIdentifier = "video"
 
 class GalleryZoomViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
     
-    var sourceURLArr = [Message]()
+    var sourceURLArr = [MMMessage]()
     var initialIndex = 0
     
     

@@ -27,8 +27,8 @@ public let kAMMessageCellNodeCaptionTextAttributes = [NSAttributedStringKey.fore
 @objc protocol ChatDelegate{
     
     //Bubble delegate
-    func openImageGallery(message : Message)
-    func openuserProfile(message : Message)
+    func openImageGallery(message : MMMessage)
+    func openuserProfile(message : MMMessage)
 }
 
 
@@ -39,7 +39,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
     fileprivate let contentTopTextNode : ASTextNode?
     fileprivate let topTextNode : ASTextNode?
     fileprivate let bottomTextNode : ASTextNode?
-    fileprivate let message : Message?
+    fileprivate let message : MMMessage?
 
     private let isOutgoing: Bool
     let bubbleImageProvider = MessageBubbleImageProvider()
@@ -85,7 +85,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
 
     
     
-    init(message : Message? , isOutGoing : Bool) {
+    init(message : MMMessage? , isOutGoing : Bool) {
         
         
         self.message = message

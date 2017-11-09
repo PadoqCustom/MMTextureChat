@@ -9,7 +9,7 @@
 import UIKit
 
 
-class Message: NSObject {
+class MMMessage: NSObject {
 
     var isOutgoing: Bool = false
     var text: NSAttributedString?
