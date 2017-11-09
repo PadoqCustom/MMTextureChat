@@ -10,7 +10,7 @@ import UIKit
 import AsyncDisplayKit
 import ionicons
 
-class MessageVideoNode : ASDisplayNode{
+public class MessageVideoNode : ASDisplayNode{
     
     var videoNode : ASVideoNode
     private let bubbleImage: UIImage

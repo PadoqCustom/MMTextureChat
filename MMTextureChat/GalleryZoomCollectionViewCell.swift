@@ -9,7 +9,7 @@
 import UIKit
 import AsyncDisplayKit
 
-class GalleryZoomCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate,ASNetworkImageNodeDelegate  {
+public class GalleryZoomCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate,ASNetworkImageNodeDelegate  {
     
     var scroll : UIScrollView!
     var imageView : ASNetworkImageNode!
@@ -58,7 +58,7 @@ class GalleryZoomCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate,A
         self.addGestureRecognizer(tap)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -81,7 +81,7 @@ class GalleryZoomCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate,A
 
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         layoutTheComponents()
     }
@@ -123,7 +123,7 @@ class GalleryZoomCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate,A
 
     
     
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+    public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView.view
     }
     
@@ -147,15 +147,15 @@ class GalleryZoomCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate,A
     }
     
     //MARK: - Delegate
-    func imageNodeDidStartFetchingData(_ imageNode: ASNetworkImageNode) {
+    public func imageNodeDidStartFetchingData(_ imageNode: ASNetworkImageNode) {
         indicator.startAnimating()
     }
     
-    func imageNode(_ imageNode: ASNetworkImageNode, didLoad image: UIImage) {
+    public func imageNode(_ imageNode: ASNetworkImageNode, didLoad image: UIImage) {
         indicator.stopAnimating()
     }
     
-    func imageNode(_ imageNode: ASNetworkImageNode, didFailWithError error: Error) {
+    public func imageNode(_ imageNode: ASNetworkImageNode, didFailWithError error: Error) {
         indicator.stopAnimating()
     }
     

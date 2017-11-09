@@ -9,14 +9,14 @@
 import UIKit
 import AsyncDisplayKit
 
-class MessageTextNode: ASTextNode {
+public class MessageTextNode: ASTextNode {
     
     override init() {
         super.init()
         placeholderColor = UIColor.clear
     }
     
-    override func calculateSizeThatFits(_ constrainedSize: CGSize) -> CGSize {
+    override public func calculateSizeThatFits(_ constrainedSize: CGSize) -> CGSize {
         let size = super.calculateSizeThatFits(constrainedSize)
         return CGSize(width: max(size.width, 15), height: size.height)
     }

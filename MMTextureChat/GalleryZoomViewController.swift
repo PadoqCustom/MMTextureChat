@@ -14,7 +14,7 @@ private let reuseIdentifier = "zoom"
 private let reusevideoIdentifier = "video"
 
 
-class GalleryZoomViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
+public class GalleryZoomViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
     
     var sourceURLArr = [MMMessage]()
     var initialIndex = 0
@@ -25,11 +25,11 @@ class GalleryZoomViewController: UICollectionViewController,UICollectionViewDele
         super.init(collectionViewLayout: layout)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
@@ -74,7 +74,7 @@ class GalleryZoomViewController: UICollectionViewController,UICollectionViewDele
        self.dismiss(animated: true, completion: nil)
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -91,18 +91,18 @@ class GalleryZoomViewController: UICollectionViewController,UICollectionViewDele
 
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    override public func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return sourceURLArr.count
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let msg = sourceURLArr[indexPath.item]
         if let url = msg.imageUrl{

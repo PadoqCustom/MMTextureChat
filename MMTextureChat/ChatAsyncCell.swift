@@ -32,7 +32,7 @@ public let kAMMessageCellNodeCaptionTextAttributes = [NSAttributedStringKey.fore
 }
 
 
-class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
+public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
     
     fileprivate let avatarImageNode: ASNetworkImageNode?
     var bubbleNode: ASDisplayNode?
@@ -48,7 +48,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
     
     
     
-    func didTap(_ videoNode: ASVideoNode) {
+    public func didTap(_ videoNode: ASVideoNode) {
         if(delegate != nil){
             if let msg = message{
                 self.delegate.openImageGallery(message: msg)
@@ -219,7 +219,7 @@ class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
     }
     
     
-    override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+    override public func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         
         
         let contentTopFinal : ASLayoutSpec? = message?.name == nil ? nil : ASInsetLayoutSpec(insets: UIEdgeInsetsMake(0, 20 + 24, 0, 0), child: contentTopTextNode!)

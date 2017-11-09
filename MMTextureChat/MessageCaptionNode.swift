@@ -10,7 +10,7 @@ import UIKit
 import AsyncDisplayKit
 
 
-class MessageCaptionNode: ASTextNode {
+public class MessageCaptionNode: ASTextNode {
     
     override init() {
         super.init()
@@ -18,7 +18,7 @@ class MessageCaptionNode: ASTextNode {
         isLayerBacked = true
     }
     
-    override func calculateSizeThatFits(_ constrainedSize: CGSize) -> CGSize {
+    override public func calculateSizeThatFits(_ constrainedSize: CGSize) -> CGSize {
         let size = super.calculateSizeThatFits(CGSize(width: 210, height: CGFloat.greatestFiniteMagnitude))
         return CGSize(width: max(size.width, 15), height: size.height)
     }

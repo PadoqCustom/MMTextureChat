@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
+public class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     private var topMostVisibleItem    =  Int.max
     private var bottomMostVisibleItem = -Int.max
@@ -20,7 +20,7 @@ class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
     private var isInsertingItemsToBottom = false
     
     
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    override public func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
         // Reset each time all values to recalculate them
         // ════════════════════════════════════════════════════════════
@@ -38,7 +38,7 @@ class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
         return visibleAttributes
     }
     
-    override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
+    override public func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
         
         // Check where new items get inserted
         // ════════════════════════════════════════════════════════════
@@ -136,7 +136,7 @@ class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
         }
     }
     
-    override func finalizeCollectionViewUpdates() {
+    override public func finalizeCollectionViewUpdates() {
         
         // Set final content offset with animation or not
         // ════════════════════════════════════════════════════════════

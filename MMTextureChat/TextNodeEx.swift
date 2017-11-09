@@ -9,7 +9,7 @@
 import UIKit
 import AsyncDisplayKit
 
-extension ASTextNode{
+public extension ASTextNode{
     func addLinkDetection(_ text: String, highLightColor: UIColor) {
         self.isUserInteractionEnabled = true
         let types: NSTextCheckingResult.CheckingType = [.link]
@@ -38,7 +38,7 @@ extension ASTextNode{
     }
 }
 
-extension ASTextNode{
+public extension ASTextNode{
     
     
     func addUserMention(highLightColor : UIColor){

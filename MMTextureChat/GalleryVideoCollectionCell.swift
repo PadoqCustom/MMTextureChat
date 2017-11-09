@@ -10,7 +10,7 @@
 import UIKit
 import  AsyncDisplayKit
 
-class GalleryVideoCollectionCell: UICollectionViewCell,ASVideoPlayerNodeDelegate{
+public class GalleryVideoCollectionCell: UICollectionViewCell,ASVideoPlayerNodeDelegate{
     
     var videoView : ASVideoPlayerNode!
     
@@ -26,7 +26,7 @@ class GalleryVideoCollectionCell: UICollectionViewCell,ASVideoPlayerNodeDelegate
 
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -38,7 +38,7 @@ class GalleryVideoCollectionCell: UICollectionViewCell,ASVideoPlayerNodeDelegate
         }
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         self.videoView.frame = self.bounds
     }
