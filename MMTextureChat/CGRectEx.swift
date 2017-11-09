@@ -8,7 +8,7 @@
 
 import UIKit
 
-public extension CGRect {
+extension CGRect {
     var x: CGFloat {
         get {
             return self.origin.x

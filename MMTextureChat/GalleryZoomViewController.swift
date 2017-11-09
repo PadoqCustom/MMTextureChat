@@ -16,11 +16,11 @@ private let reusevideoIdentifier = "video"
 
 public class GalleryZoomViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
     
-    var sourceURLArr = [MMMessage]()
-    var initialIndex = 0
+    public var sourceURLArr = [MMMessage]()
+    public var initialIndex = 0
     
     
-    override init(collectionViewLayout layout: UICollectionViewLayout) {
+    override public init(collectionViewLayout layout: UICollectionViewLayout) {
 
         super.init(collectionViewLayout: layout)
     }

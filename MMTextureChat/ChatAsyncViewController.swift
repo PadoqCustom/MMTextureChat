@@ -90,12 +90,12 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
         collectionView.delegate = nil
     }
     
-    func openuserProfile(message: MMMessage) {
+    public func openuserProfile(message: MMMessage) {
 //        print("click click")
     }
     
     
-    func openImageGallery(message: MMMessage) {
+    public func openImageGallery(message: MMMessage) {
         if let _ = message.imageUrl{
             openGallery(message: message)
         } else if let _ = message.videoUrl{
@@ -162,7 +162,11 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
             
         }
         
-        
+        let attr = NSMutableAttributedString(string: "hey")
+        if(attr.string.characters.count != 0){
+            let message = MMMessage(text: attr, name: nil, isOutgoing: true, userImage: nil)
+            messages.insert(message, at: 0)
+        }
     }
     
     

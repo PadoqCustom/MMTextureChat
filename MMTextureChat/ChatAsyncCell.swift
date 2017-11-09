@@ -24,7 +24,7 @@ public let kAMMessageCellNodeCaptionTextAttributes = [NSAttributedStringKey.fore
                                                       NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.caption2)]
 
 
-@objc protocol ChatDelegate{
+@objc public protocol ChatDelegate{
     
     //Bubble delegate
     func openImageGallery(message : MMMessage)
@@ -44,7 +44,7 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
     private let isOutgoing: Bool
     let bubbleImageProvider = MessageBubbleImageProvider()
     
-    weak var delegate : ChatDelegate!
+    public weak var delegate : ChatDelegate!
     
     
     
@@ -85,7 +85,7 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
 
     
     
-    init(message : MMMessage? , isOutGoing : Bool) {
+    public init(message : MMMessage? , isOutGoing : Bool) {
         
         
         self.message = message
