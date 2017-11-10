@@ -31,11 +31,12 @@ public class GalleryZoomViewController: UICollectionViewController,UICollectionV
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.backgroundColor = UIColor.black
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-        self.collectionView?.backgroundColor = UIColor.clear
+        self.collectionView?.backgroundColor = UIColor.black
         
         // Register cell classes
         let flowLayout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
