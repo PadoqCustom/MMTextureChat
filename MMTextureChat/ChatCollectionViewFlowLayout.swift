@@ -78,43 +78,14 @@ public class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
         // ────────────────────────────────────────────────────────────
         
         var willInsertItemsToTop    = false
-        var willInsertItemsToBottom = false
         
-        // Iterate over all new items and add their height if they go inserted
-        for updateItem in updateItems {
-            switch updateItem.updateAction {
-            case .insert:
-                if topMostVisibleItem + updateItems.count > updateItem.indexPathAfterUpdate!.item {
-                    if let newAttributes = self.layoutAttributesForItem(at: updateItem.indexPathAfterUpdate!) {
-                        
-//                        offset += (newAttributes.size.height + self.minimumLineSpacing)
-                        willInsertItemsToTop = true
-                    }
-                    
-                } else if bottomMostVisibleItem <= updateItem.indexPathAfterUpdate!.item {
-                    if let newAttributes = self.layoutAttributesForItem(at: updateItem.indexPathAfterUpdate!) {
-                        
-//                        offset += (newAttributes.size.height + self.minimumLineSpacing)
-                        willInsertItemsToBottom = true
-                    }
-                }
-                
-            case.delete:
-                // TODO: Handle removal of items
-                break
-                
-            default:
-                break
-            }
-        }
         willInsertItemsToTop = updateItems[0].indexPathAfterUpdate?.item == 0
-        
         
         // Pass on information if items need more than one screen
         // ────────────────────────────────────────────────────────────
         
         // Just continue if one flag is set
-        if willInsertItemsToTop || willInsertItemsToBottom {
+        if willInsertItemsToTop {
             
             // Get heights without top and bottom
             let collectionViewContentHeight = collectionView.contentSize.height
@@ -129,8 +100,6 @@ public class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
                     CATransaction.setDisableActions(true)
                     isInsertingItemsToTop = true
                     
-                } else if willInsertItemsToBottom {
-                    isInsertingItemsToBottom = true
                 }
             }
         }
@@ -164,7 +133,10 @@ public class ChatCollectionViewFlowLayout: UICollectionViewFlowLayout {
                                            y: collectionView.contentSize.height + offset - collectionView.frame.size.height + collectionView.contentInset.bottom)
             
             // Set new content offset with animation
-//            collectionView.setContentOffset(newContentOffset, animated: true)
+            //            collectionView.setContentOffset(newContentOffset, animated: true)
         }
     }
 }
+
+
+
