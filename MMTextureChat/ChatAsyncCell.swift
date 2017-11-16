@@ -40,7 +40,7 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
     fileprivate let topTextNode : ASTextNode?
     fileprivate let bottomTextNode : ASTextNode?
     fileprivate let message : MMMessage?
-
+    
     private let isOutgoing: Bool
     let bubbleImageProvider = MessageBubbleImageProvider()
     
@@ -54,35 +54,35 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
                 self.delegate.openImageGallery(message: msg)
             }
         }
-
+        
     }
-
+    
     
     @objc func handleZoomTap() {
-    
+        
         if(delegate != nil){
             if let msg = message{
                 self.delegate.openImageGallery(message: msg)
-    
+                
             }
         }
-    
+        
     }
     
     
     @objc func handleUserTap() {
-    
+        
         if(delegate != nil){
             if let msg = message{
                 self.delegate.openuserProfile(message: msg)
-    
+                
             }
         }
     }
     
     
-
-
+    
+    
     
     
     public init(message : MMMessage? , isOutGoing : Bool) {
@@ -93,7 +93,7 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         let bubbleImg = bubbleImageProvider.bubbleImage(isOutgoing, hasTail: true)
         bubbleNode = nil
         contentTopTextNode = ASTextNode()
-
+        
         if let url = message?.videoUrl{
             
             bubbleNode = MessageVideoNode(url: url, bubbleImage: bubbleImg, isOutgoing: isOutgoing)
@@ -106,18 +106,19 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
             
             bubbleNode = MessageNetworkImageBubbleNode(img: url, text: NSAttributedString(string: caption!, attributes: kAMMessageCellNodeCaptionTextAttributes), isOutgoing: isOutgoing, bubbleImage: bubbleImg)
             
+        } else if let image = message?.image {
+            let caption = message?.text == nil ? "" : message?.text?.string
             
+            bubbleNode = MessageImageBubbleNode(img: image, text: NSAttributedString(string: caption!, attributes: kAMMessageCellNodeCaptionTextAttributes), isOutgoing: isOutgoing, bubbleImage: bubbleImg)
             
-        }
-
-        else{
+        } else {
             if let body = message?.text{
                 bubbleNode = MessageTextBubbleNode(text: NSAttributedString(attributedString: body), isOutgoing: isOutgoing, bubbleImage: bubbleImg)
                 
             }
         }
         
-
+        
         if let name = message?.name, message?.isOutgoing != true {
             contentTopTextNode?.attributedText = NSAttributedString(string: name , attributes: kAMMessageCellNodeContentTopTextAttributes)
             
@@ -126,8 +127,8 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         
         if let stamp = message?.sectionStamp{
             topTextNode = ASTextNode()
-//            topTextNode?.backgroundColor = UIColor.red
-                        
+            //            topTextNode?.backgroundColor = UIColor.red
+            
             topTextNode?.attributedText = NSAttributedString(string: stamp, attributes: kAMMessageCellNodeTopTextAttributes)
             topTextNode?.style.alignSelf = .center
             topTextNode?.textContainerInset = UIEdgeInsetsMake(10, 0, 10, 0)
@@ -145,14 +146,14 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         }else{
             bottomTextNode = nil
         }
-       
-
+        
+        
         avatarImageNode = ASNetworkImageNode()
         //avatar
         if let avatarstr = message?.userImgURL{
             if let avatarurl = URL(string: avatarstr){
                 avatarImageNode?.url = avatarurl
-
+                
             }
         } else if let img = message?.userImage {
             avatarImageNode?.image = img
@@ -160,31 +161,31 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         } else {
             avatarImageNode?.image = UIImage(named: "avatar")
         }
-
+        
         if(isOutgoing){
             avatarImageNode?.style.preferredSize = CGSize.zero
-
+            
             
         }else{
             avatarImageNode?.style.preferredSize = CGSize(width: kAMMessageCellNodeAvatarImageSize, height: kAMMessageCellNodeAvatarImageSize)
             avatarImageNode?.cornerRadius = kAMMessageCellNodeAvatarImageSize/2
             avatarImageNode?.clipsToBounds = true
-
+            
         }
         
         bubbleNode?.style.flexShrink = 1.0
-
-
+        
+        
         super.init()
         if let _ = message?.videoUrl{
             addSubnode(bubbleNode!)
             (bubbleNode as! MessageVideoNode).videoNode.delegate = self
-
+            
             
         }
-        if let _ = message?.imageUrl{
+        if message?.imageUrl != nil || message?.image != nil {
             addSubnode(bubbleNode!)
-
+            
         }else{
             if let _ = message?.text{
                 addSubnode(bubbleNode!)
@@ -192,30 +193,32 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
             }
         }
         
-
+        
         addSubnode(avatarImageNode!)
         addSubnode(contentTopTextNode!)
         
         if let _ = message?.sectionStamp{
             addSubnode(topTextNode!)
-
+            
         }
-       
+        
         
         if let _ = message?.bottomStatusText{
             addSubnode(bottomTextNode!)
             
         }
-
+        
         selectionStyle = .none
         
         //target
         if let node = bubbleNode as? MessageNetworkImageBubbleNode{
             node.messageImageNode.addTarget(self, action: #selector(handleZoomTap), forControlEvents: ASControlNodeEvent.touchUpInside)
-            
+        }
+        if let node = bubbleNode as? MessageImageBubbleNode{
+            node.messageImageNode.addTarget(self, action: #selector(handleZoomTap), forControlEvents: ASControlNodeEvent.touchUpInside)
         }
         avatarImageNode?.addTarget(self, action: #selector(handleUserTap), forControlEvents: ASControlNodeEvent.touchUpInside)
-
+        
     }
     
     
@@ -223,7 +226,7 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         
         
         let contentTopFinal : ASLayoutSpec? = message?.name == nil ? nil : ASInsetLayoutSpec(insets: UIEdgeInsetsMake(0, 20 + 24, 0, 0), child: contentTopTextNode!)
-
+        
         let horizontalSpec = ASStackLayoutSpec()
         horizontalSpec.style.width = ASDimensionMakeWithPoints(constrainedSize.max.width)
         horizontalSpec.direction = .horizontal
@@ -234,11 +237,11 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         if isOutgoing {
             if let bub = bubbleNode{
                 horizontalSpec.setChild(bub, at: 0)
-  
+                
             }
             if let avatar = avatarImageNode{
                 horizontalSpec.setChild(avatar, at: 1)
-
+                
             }
             horizontalSpec.style.alignSelf = .end
             horizontalSpec.horizontalAlignment = .right
@@ -266,7 +269,7 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         verticalSpec.justifyContent = .start
         verticalSpec.alignItems = isOutgoing == true ? .end : .start
         
-
+        
         
         if let contentTopFinal = contentTopFinal {
             verticalSpec.setChild(contentTopFinal, at: 0)
@@ -274,8 +277,8 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         
         verticalSpec.setChild(horizontalSpec, at: 1)
         
-
-
+        
+        
         if let _ = message?.bottomStatusText{
             if(isOutgoing){
                 contentTopTextNode?.style.preferredSize = CGSize.zero
@@ -285,21 +288,22 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         }
         
         let insetSpec = ASInsetLayoutSpec(insets: isOutgoing ? UIEdgeInsetsMake(1, 32, 1, 4) : UIEdgeInsetsMake(1, 4, 1, 32), child: verticalSpec)
-
+        
         if let _ = message?.sectionStamp{
             let stackLay = ASStackLayoutSpec(direction: ASStackLayoutDirection.vertical, spacing: 0, justifyContent: ASStackLayoutJustifyContent.start, alignItems: ASStackLayoutAlignItems.start, children: [topTextNode! , insetSpec])
             return stackLay
             
         }else{
             return insetSpec
-
+            
         }
-//        print(message?.text?.string)
+        //        print(message?.text?.string)
         
-
+        
     }
     
     
-
-
+    
+    
 }
+

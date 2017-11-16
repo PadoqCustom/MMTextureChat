@@ -25,7 +25,7 @@ public class MessageNetworkImageBubbleNode: ASDisplayNode ,ASNetworkImageNodeDel
         messageImageNode = ASNetworkImageNode()
         textNode = MessageCaptionNode()
         self.caption = text
-    
+        
         super.init()
         
         self.backgroundColor =  UIColor(red: 239 / 255, green: 237 / 255, blue: 237 / 255, alpha: 1)
@@ -110,4 +110,81 @@ public class MessageNetworkImageBubbleNode: ASDisplayNode ,ASNetworkImageNodeDel
         activity.stopAnimating()
         
     }
+}
+
+public class MessageImageBubbleNode: ASDisplayNode {
+    private let bubbleImage: UIImage
+    private let isOutgoing: Bool
+    let messageImageNode: ASImageNode
+    private let textNode: ASTextNode
+    private let caption : NSAttributedString
+    private lazy var activity : UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
+    
+    public init(img: UIImage, text : NSAttributedString , isOutgoing : Bool, bubbleImage: UIImage) {
+        
+        self.isOutgoing = isOutgoing
+        self.bubbleImage = bubbleImage
+        messageImageNode = ASImageNode()
+        textNode = MessageCaptionNode()
+        self.caption = text
+        
+        super.init()
+        
+        self.backgroundColor =  UIColor(red: 239 / 255, green: 237 / 255, blue: 237 / 255, alpha: 1)
+        
+        messageImageNode.style.preferredSize = CGSize(width: 210, height: 150)
+        
+        messageImageNode.image = img
+        
+        if(text.string != ""){
+            textNode.textContainerInset = UIEdgeInsetsMake(8, 12, 8, 8)
+            textNode.attributedText = text
+            textNode.backgroundColor = UIColor.clear
+            textNode.placeholderEnabled = false
+            addSubnode(textNode)
+        }
+        
+        
+        
+        addSubnode(messageImageNode)
+        
+        
+    }
+    
+    public override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+        
+        
+        
+        let verticalSpec = ASStackLayoutSpec()
+        verticalSpec.direction = .vertical
+        verticalSpec.spacing = 0
+        verticalSpec.justifyContent = .start
+        verticalSpec.alignItems = isOutgoing == true ? .end : .start
+        
+        verticalSpec.setChild(messageImageNode, at: 0)
+        if(self.caption.string != ""){
+            textNode.style.alignSelf = .start //(isOutgoing ? .start : .end)
+            verticalSpec.setChild(textNode, at: 1)
+            
+        }
+        
+        let insets = UIEdgeInsetsMake(0, 0, 0, 0)
+        let insetSpec = ASInsetLayoutSpec(insets: insets, child: verticalSpec)
+        return insetSpec
+        
+        
+        
+        
+    }
+    
+    override public func didLoad() {
+        super.didLoad()
+        let mask = UIImageView(image: bubbleImage)
+        mask.frame.size = calculatedSize
+        //        print(calculatedSize)
+        view.layer.mask = mask.layer
+    }
+    
+    
 }

@@ -12,7 +12,6 @@
 		8B1DF09D1F160A3B00AEA141 /* GalleryVideoCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1DF09C1F160A3B00AEA141 /* GalleryVideoCollectionCell.swift */; };
 		8B1DF0A31F162E5300AEA141 /* texturechat.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8B1DF0A21F162E5300AEA141 /* texturechat.gif */; };
 		8BB672F01F14F20F00EEDC98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB672EF1F14F20F00EEDC98 /* AppDelegate.swift */; };
-		8BB672F21F14F20F00EEDC98 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB672F11F14F20F00EEDC98 /* ViewController.swift */; };
 		8BB672F51F14F20F00EEDC98 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BB672F31F14F20F00EEDC98 /* Main.storyboard */; };
 		8BB672F71F14F20F00EEDC98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BB672F61F14F20F00EEDC98 /* Assets.xcassets */; };
 		8BB672FA1F14F20F00EEDC98 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BB672F81F14F20F00EEDC98 /* LaunchScreen.storyboard */; };
@@ -22,7 +21,6 @@
 		8BB673081F14F82500EEDC98 /* MessageTextBubbleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB673071F14F82500EEDC98 /* MessageTextBubbleNode.swift */; };
 		8BB6730A1F14F87000EEDC98 /* MessageTextNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB673091F14F87000EEDC98 /* MessageTextNode.swift */; };
 		8BB6730C1F14FB7B00EEDC98 /* MessageCaptionNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6730B1F14FB7B00EEDC98 /* MessageCaptionNode.swift */; };
-		8BB6730E1F14FBFB00EEDC98 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6730D1F14FBFB00EEDC98 /* Message.swift */; };
 		8BB673121F14FD1F00EEDC98 /* MessageBubbleImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB673111F14FD1F00EEDC98 /* MessageBubbleImageProvider.swift */; };
 		8BB673161F14FE9B00EEDC98 /* CGRectEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB673151F14FE9B00EEDC98 /* CGRectEx.swift */; };
 		8BB673181F1502CC00EEDC98 /* ChatAsyncViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB673171F1502CC00EEDC98 /* ChatAsyncViewController.swift */; };
@@ -32,6 +30,7 @@
 		8BB673201F15085C00EEDC98 /* ScrollEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB6731F1F15085C00EEDC98 /* ScrollEx.swift */; };
 		8BB673231F15089600EEDC98 /* TextNodeEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB673221F15089600EEDC98 /* TextNodeEx.swift */; };
 		8BB673251F1508C100EEDC98 /* UIImageEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB673241F1508C100EEDC98 /* UIImageEx.swift */; };
+		983CFCA51FBDC16900CD0D09 /* MMMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983CFCA41FBDC16900CD0D09 /* MMMessage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,7 +41,6 @@
 		8B1DF0A21F162E5300AEA141 /* texturechat.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = texturechat.gif; sourceTree = "<group>"; };
 		8BB672EC1F14F20F00EEDC98 /* MMTextureChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MMTextureChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BB672EF1F14F20F00EEDC98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8BB672F11F14F20F00EEDC98 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8BB672F41F14F20F00EEDC98 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8BB672F61F14F20F00EEDC98 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8BB672F91F14F20F00EEDC98 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -53,7 +51,6 @@
 		8BB673071F14F82500EEDC98 /* MessageTextBubbleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTextBubbleNode.swift; sourceTree = "<group>"; };
 		8BB673091F14F87000EEDC98 /* MessageTextNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTextNode.swift; sourceTree = "<group>"; };
 		8BB6730B1F14FB7B00EEDC98 /* MessageCaptionNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCaptionNode.swift; sourceTree = "<group>"; };
-		8BB6730D1F14FBFB00EEDC98 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8BB673111F14FD1F00EEDC98 /* MessageBubbleImageProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBubbleImageProvider.swift; sourceTree = "<group>"; };
 		8BB673151F14FE9B00EEDC98 /* CGRectEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectEx.swift; sourceTree = "<group>"; };
 		8BB673171F1502CC00EEDC98 /* ChatAsyncViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatAsyncViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +60,7 @@
 		8BB6731F1F15085C00EEDC98 /* ScrollEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollEx.swift; sourceTree = "<group>"; };
 		8BB673221F15089600EEDC98 /* TextNodeEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextNodeEx.swift; sourceTree = "<group>"; };
 		8BB673241F1508C100EEDC98 /* UIImageEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageEx.swift; sourceTree = "<group>"; };
+		983CFCA41FBDC16900CD0D09 /* MMMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMMessage.swift; sourceTree = "<group>"; };
 		985C87E687E568D8BFD6570B /* Pods_MMTextureChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MMTextureChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -123,7 +121,6 @@
 			children = (
 				8BB6731A1F1502E200EEDC98 /* GalleryZoomViewController.swift */,
 				8BB673171F1502CC00EEDC98 /* ChatAsyncViewController.swift */,
-				8BB672F11F14F20F00EEDC98 /* ViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -177,7 +174,7 @@
 			children = (
 				8BB673211F15086800EEDC98 /* Extension */,
 				8BB673111F14FD1F00EEDC98 /* MessageBubbleImageProvider.swift */,
-				8BB6730D1F14FBFB00EEDC98 /* Message.swift */,
+				983CFCA41FBDC16900CD0D09 /* MMMessage.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -327,7 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BB6731C1F1502E200EEDC98 /* GalleryZoomViewController.swift in Sources */,
-				8BB672F21F14F20F00EEDC98 /* ViewController.swift in Sources */,
+				983CFCA51FBDC16900CD0D09 /* MMMessage.swift in Sources */,
 				8B1DF09D1F160A3B00AEA141 /* GalleryVideoCollectionCell.swift in Sources */,
 				8BB673251F1508C100EEDC98 /* UIImageEx.swift in Sources */,
 				8BB673231F15089600EEDC98 /* TextNodeEx.swift in Sources */,
@@ -335,7 +332,6 @@
 				8BB6731B1F1502E200EEDC98 /* GalleryZoomCollectionViewCell.swift in Sources */,
 				8BB672F01F14F20F00EEDC98 /* AppDelegate.swift in Sources */,
 				8BB673201F15085C00EEDC98 /* ScrollEx.swift in Sources */,
-				8BB6730E1F14FBFB00EEDC98 /* Message.swift in Sources */,
 				8BB673121F14FD1F00EEDC98 /* MessageBubbleImageProvider.swift in Sources */,
 				8BB6731E1F15056700EEDC98 /* ChatCollectionViewFlowLayout.swift in Sources */,
 				8BB673041F14F5AC00EEDC98 /* MessageNetworkImageBubbleNode.swift in Sources */,

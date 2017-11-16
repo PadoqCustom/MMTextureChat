@@ -21,13 +21,14 @@ public class MMMessage: NSObject {
     
     //if image cell
     public var imageUrl: String?
+    public var image: UIImage?
     public var imageWidth: NSNumber?
     public var imageHeight: NSNumber?
     
     //if video cell
     public var videoUrl: String?
     
-    public init(text: NSAttributedString?, name: String?, bottomText: String?, sectionText: String?, isOutgoing: Bool, userImage: UIImage?, userImageURL: String?, imageUrl: String?, imageWidth: NSNumber?, imageHeight: NSNumber?, videoUrl: String?) {
+    public init(text: NSAttributedString?, name: String?, bottomText: String?, sectionText: String?, isOutgoing: Bool, userImage: UIImage?, userImageURL: String?, imageUrl: String?, image: UIImage?, imageWidth: NSNumber?, imageHeight: NSNumber?, videoUrl: String?) {
         super.init()
         self.isOutgoing = isOutgoing
         self.text = text
@@ -37,6 +38,7 @@ public class MMMessage: NSObject {
         self.userImgURL = userImageURL
         self.userImage = userImage
         self.imageUrl = imageUrl
+        self.image = image
         self.imageWidth = imageWidth
         self.imageHeight = imageHeight
         self.videoUrl = videoUrl
@@ -44,7 +46,7 @@ public class MMMessage: NSObject {
     }
     
     public convenience init(text: NSAttributedString, name: String?, isOutgoing: Bool, userImage: UIImage?) {
-        self.init(text: text, name: name, bottomText: nil, sectionText: nil, isOutgoing: isOutgoing, userImage: userImage, userImageURL: nil, imageUrl: nil, imageWidth: nil, imageHeight: nil, videoUrl: nil)
+        self.init(text: text, name: name, bottomText: nil, sectionText: nil, isOutgoing: isOutgoing, userImage: userImage, userImageURL: nil, imageUrl: nil, image: nil, imageWidth: nil, imageHeight: nil, videoUrl: nil)
     }
     
     public init(image : String){
@@ -96,4 +98,5 @@ public class MMMessage: NSObject {
     
     
 }
+
 
