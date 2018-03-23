@@ -10,7 +10,7 @@
 import UIKit
 import AsyncDisplayKit
 
-public let kAMMessageCellNodeAvatarImageSize: CGFloat = 24
+public let kAMMessageCellNodeAvatarImageSize: CGFloat = 32
 
 public let kAMMessageCellNodeTopTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(red: 142/255.0, green: 142/255.0, blue: 147/255.0, alpha: 1),
                                                   NSAttributedStringKey.font: UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.medium)]
