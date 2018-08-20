@@ -12,7 +12,7 @@ import AsyncDisplayKit
 public extension ASTextNode{
     func addLinkDetection(_ text: String, highLightColor: UIColor) {
         self.isUserInteractionEnabled = true
-        let types: NSTextCheckingResult.CheckingType = [.link, .phoneNumber]
+        let types: NSTextCheckingResult.CheckingType = [.link]
         do{
             let detector = try NSDataDetector(types: types.rawValue)
             let range = NSMakeRange(0, (text as NSString).length)
