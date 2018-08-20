@@ -69,9 +69,7 @@ public class MessageTextBubbleNode: ASDisplayNode , ASTextNodeDelegate{
     }
     
     public func textNode(_ textNode: ASTextNode, tappedLinkAttribute attribute: String, value: Any, at point: CGPoint, textRange: NSRange) {
-        print(value)
         guard let url = value as? URL else {return}
-        
         UIApplication.shared.openURL(url)
 
     }
