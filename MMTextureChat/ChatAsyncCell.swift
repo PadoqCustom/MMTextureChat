@@ -85,7 +85,7 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
     
     
     
-    public init(message : MMMessage? , isOutGoing : Bool) {
+    public init(message : MMMessage? , isOutGoing : Bool, linkColor: UIColor = .blue) {
         
         
         self.message = message
@@ -113,7 +113,7 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
             
         } else {
             if let body = message?.text{
-                bubbleNode = MessageTextBubbleNode(text: NSAttributedString(attributedString: body), isOutgoing: isOutgoing, bubbleImage: bubbleImg)
+                bubbleNode = MessageTextBubbleNode(text: NSAttributedString(attributedString: body), isOutgoing: isOutgoing, bubbleImage: bubbleImg, linkColor: linkColor)
                 
             }
         }

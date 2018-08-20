@@ -15,7 +15,7 @@ public class MessageTextBubbleNode: ASDisplayNode , ASTextNodeDelegate{
     private let bubbleImageNode: ASImageNode
     private let textNode: ASTextNode
     
-    public init(text: NSAttributedString, isOutgoing: Bool, bubbleImage: UIImage) {
+    public init(text: NSAttributedString, isOutgoing: Bool, bubbleImage: UIImage, linkColor: UIColor = .blue) {
         self.isOutgoing = isOutgoing
         
         bubbleImageNode = ASImageNode()
@@ -40,7 +40,7 @@ public class MessageTextBubbleNode: ASDisplayNode , ASTextNodeDelegate{
         //target delegate
         textNode.isUserInteractionEnabled = true
         textNode.delegate = self
-        let linkcolor = isOutgoing ? UIColor.white : UIColor.blue
+        let linkcolor = isOutgoing ? UIColor.white : linkColor
         textNode.addLinkDetection(attr.string, highLightColor: linkcolor)
         textNode.addUserMention(highLightColor: linkcolor)
         
@@ -69,7 +69,10 @@ public class MessageTextBubbleNode: ASDisplayNode , ASTextNodeDelegate{
     }
     
     public func textNode(_ textNode: ASTextNode, tappedLinkAttribute attribute: String, value: Any, at point: CGPoint, textRange: NSRange) {
-//        print("link tap")
+        print(value)
+        guard let url = value as? URL else {return}
+        
+        UIApplication.shared.openURL(url)
 
     }
 }
