@@ -8,7 +8,6 @@
 
 import UIKit
 import AsyncDisplayKit
-//import MBPhotoPicker
 import ionicons
 
 open class ChatAsyncViewController: UIViewController , ChatDelegate {
