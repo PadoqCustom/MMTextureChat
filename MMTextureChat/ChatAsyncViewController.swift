@@ -8,7 +8,7 @@
 
 import UIKit
 import AsyncDisplayKit
-import MBPhotoPicker
+//import MBPhotoPicker
 import ionicons
 
 open class ChatAsyncViewController: UIViewController , ChatDelegate {
@@ -25,7 +25,6 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
     var messages = [MMMessage]()
     let cellId = "cellId"
     var userIds = [[String : NSRange]]()
-    var photo: MBPhotoPicker!
     var lastRange : NSRange!
     var senderId = "me"
     var showEarlierMessage = false
@@ -274,29 +273,6 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
     
     //MARK: - Camera
     @objc func didPressAccessoryButton() {
-        
-        photo = MBPhotoPicker()
-        photo?.disableEntitlements = true
-        
-        photo?.onPhoto = { (_ image: UIImage?) -> Void in
-//            print("Selected image")
-            if let img = image{
-                
-                self.confirmImagePost(img: img )
-                self.photo = nil
-            }
-            
-        }
-        photo?.onCancel = {
-            self.photo = nil
-//            print("Cancel Pressed")
-        }
-        photo?.onError = { (_ error: MBPhotoPicker.ErrorPhotoPicker?) -> Void in
-//            print("Error: \(String(describing: error?.rawValue))")
-            self.photo = nil
-        }
-        photo?.present(self)
-        
     }
     
     
