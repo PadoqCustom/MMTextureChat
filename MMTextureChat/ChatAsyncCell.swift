@@ -188,13 +188,8 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
             
         }else{
             if let _ = message?.text{
-                if let node = bubbleNode as? MessageTextBubbleNode {
-                    node.messageTextBubbleNodeDelegate = self
-                    bubbleNode = node
-                }
                 addSubnode(bubbleNode!)
-                
-                
+                (bubbleNode as! MessageTextBubbleNode).messageTextBubbleNodeDelegate = self
             }
         }
         
