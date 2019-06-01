@@ -91,6 +91,8 @@ open class ChatAsyncViewController: UIViewController , ChatDelegate {
     public func openuserProfile(message: MMMessage) {
 //        print("click click")
     }
+    public func openURL(url: URL) {
+    }
     
     
     public func openImageGallery(message: MMMessage) {

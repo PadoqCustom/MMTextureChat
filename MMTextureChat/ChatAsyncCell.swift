@@ -29,6 +29,7 @@ public let kAMMessageCellNodeCaptionTextAttributes = [NSAttributedStringKey.fore
     //Bubble delegate
     func openImageGallery(message : MMMessage)
     func openuserProfile(message : MMMessage)
+    func openURL(url: URL)
 }
 
 
@@ -114,7 +115,6 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
         } else {
             if let body = message?.text{
                 bubbleNode = MessageTextBubbleNode(text: NSAttributedString(attributedString: body), isOutgoing: isOutgoing, bubbleImage: bubbleImg, linkColor: linkColor)
-                
             }
         }
         
@@ -188,7 +188,12 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
             
         }else{
             if let _ = message?.text{
+                if let node = bubbleNode as? MessageTextBubbleNode {
+                    node.messageTextBubbleNodeDelegate = self
+                    bubbleNode = node
+                }
                 addSubnode(bubbleNode!)
+                
                 
             }
         }
@@ -298,12 +303,12 @@ public class ChatAsyncCell: ASCellNode,ASVideoNodeDelegate {
             
         }
         //        print(message?.text?.string)
-        
-        
     }
-    
-    
-    
-    
+}
+
+extension ChatAsyncCell: MessageTextBubbleNodeDelegate {
+    public func openURL(url: URL) {
+        delegate.openURL(url: url)
+    }
 }
 
