@@ -1,5 +1,5 @@
 # MMTextureChat
-AsyncDisplayKit(Texture) Smooth Scroll Chat Simulation
+AsyncDisplayKit(Texture) Smooth Scroll Chat Simulation. Edited by Naim for Padoq custom use.
 
 
 # To Do
